@@ -30,6 +30,13 @@ from .config import (
     TrackerConfig,
     ConfigManager,
 )
+from .manager import IterationTrackerManager
+from .tools import (
+    CreateIterationTool,
+    ListIterationsTool,
+    QueryIssuesTool,
+    AskNaturalLanguageTool,
+)
 
 __version__ = "1.0.0"
 
@@ -55,20 +62,29 @@ async def mount(coordinator: "ModuleCoordinator", config: dict[str, Any] | None 
     logger.info("Mounting Iteration Tracker module...")
 
     try:
-        # Initialize the iteration board and storage
-        board = IterationBoard()
-        storage = IterationStorage()
+        # Initialize the manager
+        manager = IterationTrackerManager(config)
+        await manager.start()
 
-        # TODO: Create and register tool instances
-        # For now, the module loads successfully but doesn't expose tools yet
-        # You'll want to create tool classes that wrap the board/storage functionality
+        # Create tool instances
+        tools = [
+            CreateIterationTool(manager),
+            ListIterationsTool(manager),
+            QueryIssuesTool(manager),
+            AskNaturalLanguageTool(manager),
+        ]
 
-        logger.info("Iteration Tracker module mounted successfully")
+        # Register each tool with the coordinator
+        for tool in tools:
+            await coordinator.mount("tools", tool, name=tool.name)
+            logger.debug(f"Mounted Iteration Tracker tool: {tool.name}")
+
+        logger.info(f"Iteration Tracker module mounted successfully with {len(tools)} tools")
 
         # Return cleanup function
         async def cleanup():
             logger.info("Cleaning up Iteration Tracker module...")
-            # Add any cleanup logic here if needed
+            await manager.stop()
 
         return cleanup
 
@@ -99,4 +115,11 @@ __all__ = [
     "GitHubRepoConfig",
     "TrackerConfig",
     "ConfigManager",
+    # Manager
+    "IterationTrackerManager",
+    # Tools
+    "CreateIterationTool",
+    "ListIterationsTool",
+    "QueryIssuesTool",
+    "AskNaturalLanguageTool",
 ]
