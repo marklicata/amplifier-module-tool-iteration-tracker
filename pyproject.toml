@@ -10,7 +10,7 @@ readme = "README.md"
 requires-python = ">=3.10"
 license = "MIT"
 authors = [
-    { name = "Amplifier Team" }
+    { name = "Mark Licata" }
 ]
 keywords = ["amplifier", "iteration", "sprint", "agile", "planning", "tool"]
 classifiers = [
