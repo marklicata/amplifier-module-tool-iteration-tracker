@@ -1,0 +1,3 @@
+modules:
+  hooks:
+  - module: hooks-iteration-tracker

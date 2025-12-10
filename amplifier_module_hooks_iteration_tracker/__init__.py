@@ -17,6 +17,11 @@ from .board import IterationBoard
 from .query import IssueQuery
 from .natural_language import parse_query, ask
 from .storage import IterationStorage
+from .config import (
+    GitHubRepoConfig,
+    TrackerConfig,
+    ConfigManager,
+)
 
 __version__ = "1.0.0"
 
@@ -37,4 +42,8 @@ __all__ = [
     "ask",
     # Storage
     "IterationStorage",
+    # Configuration
+    "GitHubRepoConfig",
+    "TrackerConfig",
+    "ConfigManager",
 ]

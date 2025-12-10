@@ -32,16 +32,16 @@ dev = [
 ]
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/amplifier_module_hooks_iteration_tracker"]
+packages = ["amplifier_module_hooks_iteration_tracker"]
 
 [tool.hatch.build.targets.sdist]
 include = [
-    "/src",
+    "/amplifier_module_hooks_iteration_tracker",
 ]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-pythonpath = ["src"]
+pythonpath = ["."]
 python_files = ["test_*.py"]
 python_functions = ["test_*"]
 addopts = "-v --tb=short"
