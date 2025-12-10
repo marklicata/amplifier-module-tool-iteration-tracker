@@ -5,12 +5,25 @@ Manages the lifecycle of iteration boards and storage.
 """
 
 import logging
+from pathlib import Path
 from typing import Any
 
 from .board import IterationBoard
 from .storage import IterationStorage
 
 logger = logging.getLogger(__name__)
+
+
+def get_iterations_data_directory() -> Path:
+    """
+    Get the data directory for iteration tracker storage.
+    
+    Returns:
+        Path to ~/.amplifier/iterations/ directory
+    """
+    data_dir = Path.home() / ".amplifier" / "iterations"
+    data_dir.mkdir(parents=True, exist_ok=True)
+    return data_dir
 
 
 class IterationTrackerManager:
@@ -25,7 +38,7 @@ class IterationTrackerManager:
         """
         self.config = config
         self.board = IterationBoard()
-        self.storage = IterationStorage()
+        self.storage = IterationStorage(get_iterations_data_directory())
 
     async def start(self):
         """Start the manager and initialize resources."""
