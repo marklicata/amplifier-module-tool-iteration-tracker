@@ -3,16 +3,16 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "amplifier-module-hooks-iteration-tracker"
+name = "amplifier-module-tool-iteration-tracker"
 version = "1.0.0"
-description = "Iteration/sprint planning and tracking for Amplifier"
+description = "Iteration/sprint planning and tracking tool module for Amplifier"
 readme = "README.md"
 requires-python = ">=3.10"
 license = "MIT"
 authors = [
     { name = "Amplifier Team" }
 ]
-keywords = ["amplifier", "iteration", "sprint", "agile", "planning"]
+keywords = ["amplifier", "iteration", "sprint", "agile", "planning", "tool"]
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
@@ -22,7 +22,12 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
 ]
-dependencies = []
+dependencies = [
+    "amplifier-core",
+]
+
+[project.entry-points."amplifier.tools"]
+tool-iteration-tracker = "amplifier_module_tool_iteration_tracker:mount"
 
 [project.optional-dependencies]
 dev = [
@@ -31,12 +36,21 @@ dev = [
     "pytest-cov>=4.0",
 ]
 
+[tool.uv]
+package = true
+
+[tool.uv.sources]
+amplifier-core = { git = "https://github.com/microsoft/amplifier-core", branch = "main" }
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
 [tool.hatch.build.targets.wheel]
-packages = ["amplifier_module_hooks_iteration_tracker"]
+packages = ["amplifier_module_tool_iteration_tracker"]
 
 [tool.hatch.build.targets.sdist]
 include = [
-    "/amplifier_module_hooks_iteration_tracker",
+    "/amplifier_module_tool_iteration_tracker",
 ]
 
 [tool.pytest.ini_options]
